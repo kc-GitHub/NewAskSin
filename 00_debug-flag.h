@@ -11,7 +11,6 @@
 #ifndef _DEBUG_FLAG_H
 #define _DEBUG_FLAG_H
 
-
 #if defined(ARDUINO) && ARDUINO >= 100
 #include "Arduino.h"
 #else
@@ -35,10 +34,10 @@
 //#define CB_DBG					// Config button class (AS_conf_button.cpp)
 //#define LD_DBG					// Status led class (AS_status_led.cpp)
 
-#define CM_DBG					// Channel Master module (cmMaster.cpp)
+//#define CM_DBG					// Channel Master module (cmMaster.cpp)
 //#define MN_DBG					// Maintenance channel module (cmMaintenance.cpp)
 //#define SW_DBG				// Switsch channel module (cmSwitch.cpp)
-#define DM_DBG					// Dimmer channel module (cmDimmer.cpp)
+//#define DM_DBG					// Dimmer channel module (cmDimmer.cpp)
 //#define RE_DBG					// Remote channel module (cmRemote.cpp)
 
 
@@ -59,7 +58,7 @@ template<class T> inline Print &operator ,(Print &obj, T arg) { return obj << ar
 #define DBG( MODULE, ...) PRIMITIVE_CAT(DBG_, MODULE, __VA_ARGS__)
 #define DBG_START( MODULE, ...) PRIMITIVE_CAT(DBG_START_, MODULE, __VA_ARGS__)
 
-#define _DBG_START(...)   power_usart0_enable();Serial.begin(57600);Serial ,__VA_ARGS__;
+#define _DBG_START(...)   power_usart0_enable();if (!(UCSR & (1<<RXEN))) {Serial.begin(57600);} Serial ,__VA_ARGS__;
 
 /* main sketch */
 #ifdef SER_DBG
