@@ -91,6 +91,8 @@ void AS::poll(void) {
 	}
 	if (rcv_msg.buf[0]) process_message();													// check if we have to handle the receive buffer
 
+	bat->poll();																			// poll the battery check
+
 	/* handle the send module */
 	snd_poll();																				// check if there is something to send
 
@@ -133,7 +135,6 @@ void AS::poll(void) {
 
 	cbn->poll();																			// poll the config button
 	led->poll();																			// poll the led's
-	bat->poll();																			// poll the battery check
 	pom->poll();																			// poll the power management
 }
 
