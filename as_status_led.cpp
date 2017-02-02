@@ -30,7 +30,8 @@ void LED::init() {
 * @param   stat    pairing, pair_suc, pair_err, send, ack, noack, bat_low, defect, welcome, key_long, nothing
 */
 void LED::set(LED_STAT::E stat) {
-	if (!ptr_pat) return;																	// check if we have something to do while a blink pattern structure is configured 
+	if (!ptr_pat) return;																	// check if we have something to do while a blink pattern structure is configured
+	if ((stat == LED_STAT::SEND_MSG) && LED::ignoreSendPattern) return;						// do nothing for SEND_MSG and ignoreSendPattern > 0
 
 	/* if anything is active, we need to check if we are able to overrule or to remember for later use */
 	if (op_pat[0].stat) {
@@ -108,3 +109,8 @@ void LED::poll(void) {
 	}
 	//dbg << "poll op0{ " << op_pat[0].stat << ", " << op_pat[0].slot_cnt << ", " << op_pat[0].repeat_cnt << ", sline{ " << op_pat[0].sline.prio << ", " << op_pat[0].sline.repeat << ", " << op_pat[0].sline.led_red << ", " << op_pat[0].sline.led_grn << ", *pat, },};\n";
 }
+
+void LED::setIgnoreSendPattern(uint8_t state) {
+	LED::ignoreSendPattern = state;
+}
+

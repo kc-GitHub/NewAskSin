@@ -71,7 +71,7 @@ const struct s_blink_pattern ptr_pat[] PROGMEM = {
 //	{ 0, 0, 0, 1, pat02, },	//      PAIR_ACTIVE, same as SEND_MSG
 	{ 2, 1, 0, 1, pat03, },	//  3 - PAIR_SUCCESS
 	{ 2, 1, 1, 0, pat03, },	//  4 - PAIR_ERROR
-	{ 0, 3, 1, 1, pat02, },	//  5 - SEND_MSG
+	{ 0, 1, 1, 1, pat02, },	//  5 - SEND_MSG
 	{ 0, 2, 0, 1, pat02, },	//  6 - GOT_ACK
 	{ 0, 2, 1, 0, pat02, },	//  7 - GOT_NACK
 	{ 2, 0, 1, 0, pat01, },	//  8 - RESET_SLOW
@@ -87,6 +87,7 @@ public:		//---------------------------------------------------------------------
 
 	const s_pin_def *pin_red;												// pointer to pin definition
 	const s_pin_def *pin_grn;
+	uint8_t ignoreSendPattern = 0;
 
 	waitTimer timer;														// blink timer functionality
 
@@ -104,6 +105,8 @@ public:		//---------------------------------------------------------------------
 	void set(LED_STAT::E stat);												// function to set the blink pattern
 	void stop(void);														// stop led 
 	void poll(void);														// poll function to process blink pattern
+
+	void setIgnoreSendPattern(uint8_t state);
 };
 
 
