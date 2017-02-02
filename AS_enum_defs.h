@@ -453,7 +453,12 @@ namespace MSG_TYPE {
 		/* 0x70 ff ff 0c * WEATHER_EVENT
 		*    LEN CNT FLAG BY03 SND       RCV        TEMP   HUM
 		* l> 0C  42  A0   70   23 70 D8  63 19 64   01 00  00      */
-		WEATHER_EVENT = 0x70ffff0c,
+		//WEATHER_EVENT = 0x70ffff0c,
+
+		/* 0x70 ff ff 0c * WEATHER_EVENT extended
+		*    LEN CNT FLAG BY03 SND       RCV        TEMP   HUM  LUMINOSITY   BAT    RESERVED1 RESERVED2
+		* l> 18  42  A0   70   23 70 D8  63 19 64   01 00  00   00 00 00 00  00 00  00 00     00 00 */
+		WEATHER_EVENT = 0x70ffff18,
 	};
 }
 

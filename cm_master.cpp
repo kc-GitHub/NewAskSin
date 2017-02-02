@@ -181,15 +181,17 @@ void CM_MASTER::CONFIG_END(s_m01xx06 *buf) {
 	cm->timer.set(0);																		// clear the timer
 	cm->active = 0;																			// clear the flag
 
+	snd_msg.mBody.FLAG.WKMEUP= 1;
 	hm->send_ACK();																			// send back that everything is ok
 
 	if (cm->list->lst < 2) {
 		lstC.load_list(cm->idx_peer);														// reload list0 or 1
 		for (uint8_t i = 0; i < cnl_max; i++) {
-			info_config_change(lstC.cnl);													// inform the channel module on a change of list0 or 1
+			cmm[i]->info_config_change(lstC.cnl);													// inform the channel module on a change of list0 or 1
 		}
 	}
 	// TODO: remove message id flag to config in send module
+	pair_mode.timer.set(0);																	// timeout pairing timer
 	DBG(CM, F("CM:CONFIG_END, cnl:"), buf->MSG_CNL, '\n');
 }
 /* 

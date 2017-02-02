@@ -358,6 +358,9 @@ void AS::process_message(void) {
 
 
 	} else if (*rcv_by03 == BY03(MSG_TYPE::HAVE_DATA)) {
+		snd_msg.mBody.FLAG.WKMEUP= 0;
+		send_ACK();
+		pom->stayAwake(500);
 
 
 	} else if (*rcv_by03 == BY03(MSG_TYPE::SWITCH)) {
@@ -433,7 +436,7 @@ void AS::snd_poll(void) {
 	if (sm->retr_cnt == 0xff) {
 		sm->clear();																		// nothing to do any more
 		led->set(LED_STAT::GOT_ACK);														// fire the status led
-		pom->stayAwake(100);																// and stay awake for a short while
+		//pom->stayAwake(100);																// and stay awake for a short while
 		return;
 	}
 
@@ -510,7 +513,7 @@ void AS::snd_poll(void) {
 
 		if (sm->mBody.FLAG.BIDI) sm->timer.set(sm->max_time);								// timeout is only needed while an ACK is requested
 		led->set(LED_STAT::SEND_MSG);														// fire the status led
-		pom->stayAwake(100);																// and stay awake for a short while
+		//pom->stayAwake(100);																// and stay awake for a short while
 
 		DBG(SN, F("<- "), _HEX(sm->buf, sm->buf[0] + 1), ' ', _TIME, '\n');					// some debug
 
@@ -523,7 +526,7 @@ void AS::snd_poll(void) {
 
 		sm->timeout = 1;																	// set the time out only while an ACK or answer was requested
 		led->set(LED_STAT::GOT_NACK);														// fire the status led
-		pom->stayAwake(100);																// and stay awake for a short while
+		//pom->stayAwake(100);																// and stay awake for a short while
 
 		DBG(SN, F("  timed out "), _TIME, '\n');											// some debug
 	}
@@ -636,6 +639,7 @@ void AS::process_peer_message_poll(void) {
 		memcpy(sm->mBody.RCV_ID, dev_operate.MAID, 3);										// copy in the pair address
 		sm->mBody.MSG_CNT = sm->MSG_CNT;													// set the message counter
 		sm->MSG_CNT++;																		// increase the counter for next time use
+		sm->mBody.FLAG.WKMEUP = 1;
 		pm->clear();																		// nothing to do here any more, while handled as pair message
 		return;																				// and return, otherwise some infos are overwritten
 	}
@@ -1094,7 +1098,7 @@ uint8_t AS::is_peer_valid(uint8_t *peer) {
 	}
 
 	#ifdef WDT_RESET_ON_RESET
-		wdt_enable(WDTO_15MS);																	// configure the watchdog so the reset sould trigger in 15ms
+		wdt_enable(WDTO_15MS);																	// configure the watchdog so the reset should trigger in 15ms
 	#else
 		init();
 		ld.set(welcome);

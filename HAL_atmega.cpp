@@ -1,4 +1,7 @@
 #include "HAL_atmega.h"
+#include "as_power.h"
+
+extern POM *pom;
 
 //-- pin functions --------------------------------------------------------------------------------------------------------
 void set_pin_output(const s_pin_def *ptr_pin) {
@@ -71,6 +74,7 @@ void(*pci_ptr)(uint8_t vec, uint8_t pin, uint8_t flag) = NULL;								// call ba
 void maintain_PCINT(uint8_t vec) {
 	pcint_vector[vec].curr = *pcint_vector[vec].PINREG & pcint_vector[vec].mask;			// read the pin port and mask out only pins registered
 	pcint_vector[vec].time = get_millis();													// store the time, if debounce is asked for
+	pom->stayAwake(DEBOUNCE+1);
 
 	if (pci_ptr) {
 		uint8_t pin_int = pcint_vector[vec].curr ^ pcint_vector[vec].prev;					// evaluate the pin which raised the interrupt
@@ -156,7 +160,7 @@ void init_millis_timer0(int16_t correct_ms) {
 	TCCR0A = _BV(WGM01);
 	TCCR0B = (_BV(CS01) | _BV(CS00));
 	TIMSK0 = _BV(OCIE0A);
-	OCR0A = ((F_CPU / 64) / 1000) + correct_ms;
+	OCR0A = ((F_CPU / 64) / 1000) - 1 + correct_ms;
 }
 #endif
 
@@ -168,7 +172,7 @@ void init_millis_timer1(int16_t correct_ms) {
 	TCCR1A = 0;
 	TCCR1B = (_BV(WGM12) | _BV(CS10) | _BV(CS11));
 	TIMSK1 = _BV(OCIE1A);
-	OCR1A = ((F_CPU / 64) / 1000) + correct_ms;
+	OCR1A = ((F_CPU / 64) / 1000) - 1 + correct_ms;
 }
 #endif
 
@@ -180,7 +184,7 @@ void init_millis_timer2(int16_t correct_ms) {
 	TCCR2A = _BV(WGM21);
 	TCCR2B = (_BV(CS21) | _BV(CS20));
 	TIMSK2 = _BV(OCIE2A);
-	OCR2A = ((F_CPU / 32) / 1000) + correct_ms;
+	OCR2A = ((F_CPU / 32) / 1000) - 1 + correct_ms;
 }
 #endif
 
