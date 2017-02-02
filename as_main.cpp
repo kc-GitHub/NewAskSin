@@ -682,9 +682,9 @@ void AS::send_DEVICE_INFO(MSG_REASON::E reason) {
 	s_m00xxxx *msg = &snd_msg.m00xxxx;														// short hand to send buffer
 
 																							/* copy the payload from different sources */
-	memcpy_P(&msg->FIRMWARE, dev_static, 3);												// copy firmware and modelID
+	memcpy(&msg->FIRMWARE, dev_static, 3);													// copy firmware and modelID
 	memcpy(&msg->SERIALNO, dev_ident.SERIAL_NR, 10);										// copy the serial number
-	memcpy_P(&msg->CLASS, dev_static + 3, 4);												// copy subtype and device info
+	memcpy(&msg->CLASS, dev_static + 3, 4);													// copy subtype and device info
 
 																							/* is it an answer to a CONFIG_PAIR_SERIAL request, or while we initiate the pairing process */
 	if (reason == MSG_REASON::ANSWER) {

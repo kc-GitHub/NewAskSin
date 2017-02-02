@@ -81,7 +81,7 @@ extern s_snd_msg snd_msg;
 * At every start, values of HMID and HMSerial was copied to related variables.
 * The HKEY was only copied at initial sketch start in the EEprom
 */
-extern const uint8_t HMSerialData[] PROGMEM;
+extern uint8_t HMSerialData[];
 /*
 * @brief Settings of HM device
 * firmwareVersion: The firmware version reported by the device
@@ -95,7 +95,7 @@ extern const uint8_t HMSerialData[] PROGMEM;
 *                  Other bytes not known.
 *                  23:0 0.4, means first four bit of byte 23 reflecting the amount of channels.
 */
-extern const uint8_t dev_static[] PROGMEM;
+extern uint8_t dev_static[] ;
 
 extern AS *hm;
 extern AES *aes;
