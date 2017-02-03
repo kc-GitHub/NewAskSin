@@ -50,7 +50,7 @@ struct s_blink_pattern {					// struct for defining the blink pattern
 
 /* definition of blink pattern, first byte indicates the length, followed by a sequence of on, off times; values are multiplied by 10ms */
 const uint8_t pat00[] PROGMEM =   {  6,  50, 10, 10, 10, 10, 200, };// DEV_BATTERY     LED blinks 1 x long, 2 x short, break (2 repeats) - battery low
-const uint8_t pat01[] PROGMEM =   {  2,  50, 50, };					// PAIR_WAIT       LED blinks slowly orange - pairing mode, wait for communication with master
+const uint8_t pat01[] PROGMEM =   {  2,  15, 15, };					// PAIR_WAIT       LED blinks slowly orange - pairing mode, wait for communication with master
 const uint8_t pat02[] PROGMEM =   {  2,  10, 10, };					// PAIR_ACTIVE     LED blinks fast green - pairing mode, communication is active
 const uint8_t pat03[] PROGMEM =   {  2, 200, 10, };					// PAIR_SUCCESS    LED on for 2s green - pair success
 //const uint8_t pat04[] PROGMEM = {  2, 200, 10, };					// PAIR_ERROR      LED on for 2s red - pair failure
@@ -66,19 +66,19 @@ const uint8_t pat12[] PROGMEM = { 2,  50, 10, };					// LED_RED_L       LED 1 x 
 
 const struct s_blink_pattern ptr_pat[] PROGMEM = {
 /* prio, repeat, red, green, ptr to pat */
-	{ 2, 2, 1, 0, pat00, },	//  1 - DEV_BATTERY
-	{ 1, 0, 1, 1, pat01, },	//  2 - PAIR_WAIT
-//	{ 0, 0, 0, 1, pat02, },	//      PAIR_ACTIVE, same as SEND_MSG
-	{ 2, 1, 0, 1, pat03, },	//  3 - PAIR_SUCCESS
-	{ 2, 1, 1, 0, pat03, },	//  4 - PAIR_ERROR
-	{ 0, 1, 1, 1, pat02, },	//  5 - SEND_MSG
-	{ 0, 2, 0, 1, pat02, },	//  6 - GOT_ACK
-	{ 0, 2, 1, 0, pat02, },	//  7 - GOT_NACK
-	{ 2, 0, 1, 0, pat01, },	//  8 - RESET_SLOW
-	{ 2, 0, 1, 0, pat02, },	//  9 - RESET_FAST
-	{ 0, 3, 0, 1, pat01, },	// 10 - WELCOME
-	{ 0, 1, 1, 0, pat11, },	// 11 - EEPROM_ERROR
-	{ 0, 1, 1, 0, pat12, },	// 12 - LED_RED_L
+	{ 2, 2,      1,	  0,     pat00, },	//  1 - DEV_BATTERY
+	{ 1, 0,      1,   1,     pat01, },	//  2 - PAIR_WAIT
+//	{ 0, 0,      0,   1,     pat02, },	//      PAIR_ACTIVE, same as SEND_MSG
+	{ 2, 1,      0,   1,     pat03, },	//  3 - PAIR_SUCCESS
+	{ 2, 1,      1,   0,     pat03, },	//  4 - PAIR_ERROR
+	{ 0, 1,      1,   1,     pat02, },	//  5 - SEND_MSG
+	{ 0, 2,      0,   1,     pat02, },	//  6 - GOT_ACK
+	{ 0, 2,      1,   0,     pat02, },	//  7 - GOT_NACK
+	{ 2, 0,      1,   0,     pat01, },	//  8 - RESET_SLOW
+	{ 2, 0,      1,   0,     pat02, },	//  9 - RESET_FAST
+	{ 2, 3,      1,   1,     pat01, },	// 10 - WELCOME
+	{ 0, 1,      1,   0,     pat11, },	// 11 - EEPROM_ERROR
+	{ 0, 1,      1,   0,     pat12, },	// 12 - LED_RED_L
 };
 
 
